@@ -1,22 +1,19 @@
 import logging
-
 import algokit_utils
 
 logger = logging.getLogger(__name__)
 
 
-# define deployment behaviour based on supplied app spec
 def deploy() -> None:
     from smart_contracts.artifacts.hello_world.hello_world_client import (
-        HelloArgs,
-        HelloWorldFactory,
+        ClientAgencyRegistryFactory,
     )
 
     algorand = algokit_utils.AlgorandClient.from_environment()
     deployer_ = algorand.account.from_environment("DEPLOYER")
 
     factory = algorand.client.get_typed_app_factory(
-        HelloWorldFactory, default_sender=deployer_.address
+        ClientAgencyRegistryFactory, default_sender=deployer_.address
     )
 
     app_client, result = factory.deploy(
@@ -28,6 +25,7 @@ def deploy() -> None:
         algokit_utils.OperationPerformed.Create,
         algokit_utils.OperationPerformed.Replace,
     ]:
+        # Fund the app account
         algorand.send.payment(
             algokit_utils.PaymentParams(
                 amount=algokit_utils.AlgoAmount(algo=1),
@@ -36,9 +34,9 @@ def deploy() -> None:
             )
         )
 
-    name = "world"
-    response = app_client.send.hello(args=HelloArgs(name=name))
+    # Test the registry
+    response = app_client.send.get_registry_info()
     logger.info(
-        f"Called hello on {app_client.app_name} ({app_client.app_id}) "
-        f"with name={name}, received: {response.abi_return}"
+        f"Deployed Client-Agency Registry ({app_client.app_id}) "
+        f"Status: {response.abi_return}"
     )
