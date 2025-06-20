@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useWallet } from "@txnlab/use-wallet-react";
-import { ClientAgencyRegistryClient } from "../contracts/HelloWorld";
+import { HelloWorldClient } from "../contracts/HelloWorld"; // Fixed import
 
 interface AgencySearchProps {
-  appClient: ClientAgencyRegistryClient;
+  appClient: HelloWorldClient; // Fixed type
 }
 
 export const AgencySearch: React.FC<AgencySearchProps> = ({ appClient }) => {
@@ -21,8 +21,10 @@ export const AgencySearch: React.FC<AgencySearchProps> = ({ appClient }) => {
 
     setLoading(true);
     try {
-      const result = await appClient.searchAgencies({
-        searchTerm: searchTerm,
+      const result = await appClient.send.searchAgencies({
+        args: {
+          searchTerm: searchTerm,
+        },
       });
 
       setSearchResults(result.return?.valueOf() || "No results found");

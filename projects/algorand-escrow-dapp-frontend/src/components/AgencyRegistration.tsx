@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useWallet } from "@txnlab/use-wallet-react";
-import { ClientAgencyRegistryClient } from "../contracts/HelloWorld";
+import { HelloWorldClient } from "../contracts/HelloWorld"; // Fixed import
 import algosdk from "algosdk";
 
 interface AgencyRegistrationProps {
-  appClient: ClientAgencyRegistryClient;
+  appClient: HelloWorldClient; // Fixed type
 }
 
 export const AgencyRegistration: React.FC<AgencyRegistrationProps> = ({
   appClient,
 }) => {
-  const { activeAccount, signTransactions, sendTransactions } = useWallet();
+  const { activeAccount } = useWallet();
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -30,10 +30,12 @@ export const AgencyRegistration: React.FC<AgencyRegistrationProps> = ({
     setMessage("");
 
     try {
-      const result = await appClient.registerAgency({
-        name: formData.name,
-        description: formData.description,
-        contactInfo: formData.contactInfo,
+      const result = await appClient.send.registerAgency({
+        args: {
+          name: formData.name,
+          description: formData.description,
+          contactInfo: formData.contactInfo,
+        },
       });
 
       setMessage(`Success: ${result.return?.valueOf()}`);

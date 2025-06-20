@@ -24,7 +24,7 @@ import { SendParams, SendSingleTransactionResult, SendAtomicTransactionComposerR
 import { Address, encodeAddress, modelsv2, OnApplicationComplete, Transaction, TransactionSigner } from 'algosdk'
 import SimulateResponse = modelsv2.SimulateResponse
 
-export const APP_SPEC: Arc56Contract = {"name":"HelloWorld","structs":{},"methods":[{"name":"hello","args":[{"type":"string","name":"name"}],"returns":{"type":"string"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"events":[],"recommendations":{}}],"arcs":[22,28],"networks":{},"state":{"schema":{"global":{"ints":0,"bytes":0},"local":{"ints":0,"bytes":0}},"keys":{"global":{},"local":{},"box":{}},"maps":{"global":{},"local":{},"box":{}}},"bareActions":{"create":["NoOp"],"call":[]},"sourceInfo":{"approval":{"sourceInfo":[{"pc":[25],"errorMessage":"OnCompletion is not NoOp"},{"pc":[66],"errorMessage":"can only call when creating"},{"pc":[28],"errorMessage":"can only call when not creating"}],"pcOffsetMethod":"none"},"clear":{"sourceInfo":[],"pcOffsetMethod":"none"}},"source":{"approval":"I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuYXBwcm92YWxfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo1CiAgICAvLyBjbGFzcyBIZWxsb1dvcmxkKEFSQzRDb250cmFjdCk6CiAgICB0eG4gTnVtQXBwQXJncwogICAgYnogbWFpbl9iYXJlX3JvdXRpbmdANgogICAgcHVzaGJ5dGVzIDB4MDJiZWNlMTEgLy8gbWV0aG9kICJoZWxsbyhzdHJpbmcpc3RyaW5nIgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggbWFpbl9oZWxsb19yb3V0ZUAzCgptYWluX2FmdGVyX2lmX2Vsc2VAMTA6CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NQogICAgLy8gY2xhc3MgSGVsbG9Xb3JsZChBUkM0Q29udHJhY3QpOgogICAgcHVzaGludCAwIC8vIDAKICAgIHJldHVybgoKbWFpbl9oZWxsb19yb3V0ZUAzOgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjYKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NQogICAgLy8gY2xhc3MgSGVsbG9Xb3JsZChBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgZXh0cmFjdCAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo2CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIGNhbGxzdWIgaGVsbG8KICAgIGR1cAogICAgbGVuCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgc3dhcAogICAgY29uY2F0CiAgICBwdXNoYnl0ZXMgMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIHB1c2hpbnQgMSAvLyAxCiAgICByZXR1cm4KCm1haW5fYmFyZV9yb3V0aW5nQDY6CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NQogICAgLy8gY2xhc3MgSGVsbG9Xb3JsZChBUkM0Q29udHJhY3QpOgogICAgdHhuIE9uQ29tcGxldGlvbgogICAgYm56IG1haW5fYWZ0ZXJfaWZfZWxzZUAxMAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgICEKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gY3JlYXRpbmcKICAgIHB1c2hpbnQgMSAvLyAxCiAgICByZXR1cm4KCgovLyBzbWFydF9jb250cmFjdHMuaGVsbG9fd29ybGQuY29udHJhY3QuSGVsbG9Xb3JsZC5oZWxsbyhuYW1lOiBieXRlcykgLT4gYnl0ZXM6CmhlbGxvOgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjYtNwogICAgLy8gQGFiaW1ldGhvZCgpCiAgICAvLyBkZWYgaGVsbG8oc2VsZiwgbmFtZTogU3RyaW5nKSAtPiBTdHJpbmc6CiAgICBwcm90byAxIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo4CiAgICAvLyByZXR1cm4gIkhlbGxvLCAiICsgbmFtZQogICAgcHVzaGJ5dGVzICJIZWxsbywgIgogICAgZnJhbWVfZGlnIC0xCiAgICBjb25jYXQKICAgIHJldHN1Ygo=","clear":"I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuY2xlYXJfc3RhdGVfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIHB1c2hpbnQgMSAvLyAxCiAgICByZXR1cm4K"},"byteCode":{"approval":"CjEbQQA0gAQCvs4RNhoAjgEAA4EAQzEZFEQxGEQ2GgFXAgCIACBJFRZXBgJMUIAEFR98dUxQsIEBQzEZQP/UMRgURIEBQ4oBAYAHSGVsbG8sIIv/UIk=","clear":"CoEBQw=="},"compilerInfo":{"compiler":"puya","compilerVersion":{"major":4,"minor":9,"patch":0}},"events":[],"templateVariables":{}} as unknown as Arc56Contract
+export const APP_SPEC: Arc56Contract = {"name":"HelloWorld","structs":{},"methods":[{"name":"register_agency","args":[{"type":"string","name":"name"},{"type":"string","name":"description"},{"type":"string","name":"contact_info"}],"returns":{"type":"string"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Register a new agency on the blockchain","events":[],"recommendations":{}},{"name":"search_agencies","args":[{"type":"string","name":"search_term"}],"returns":{"type":"string"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Allow clients to search for agencies","events":[],"recommendations":{}},{"name":"get_agency_count","args":[],"returns":{"type":"uint64"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Get total number of registered agencies","events":[],"recommendations":{}},{"name":"get_search_count","args":[],"returns":{"type":"uint64"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Get total number of searches performed","events":[],"recommendations":{}},{"name":"get_registry_info","args":[],"returns":{"type":"string"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Get basic registry information","events":[],"recommendations":{}},{"name":"hello","args":[{"type":"string","name":"name"}],"returns":{"type":"string"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Keep the original hello method for compatibility","events":[],"recommendations":{}}],"arcs":[22,28],"networks":{},"state":{"schema":{"global":{"ints":2,"bytes":0},"local":{"ints":0,"bytes":0}},"keys":{"global":{"total_agencies":{"keyType":"AVMString","valueType":"AVMUint64","key":"dG90YWxfYWdlbmNpZXM="},"total_searches":{"keyType":"AVMString","valueType":"AVMUint64","key":"dG90YWxfc2VhcmNoZXM="}},"local":{},"box":{}},"maps":{"global":{},"local":{},"box":{}}},"bareActions":{"create":["NoOp"],"call":[]},"sourceInfo":{"approval":{"sourceInfo":[{"pc":[112,142,218,235,252,282],"errorMessage":"OnCompletion is not NoOp"},{"pc":[329],"errorMessage":"can only call when creating"},{"pc":[115,145,221,238,255,285],"errorMessage":"can only call when not creating"},{"pc":[338,463],"errorMessage":"check self.total_agencies exists"},{"pc":[388,468],"errorMessage":"check self.total_searches exists"}],"pcOffsetMethod":"none"},"clear":{"sourceInfo":[],"pcOffsetMethod":"none"}},"source":{"approval":"I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBzbWFydF9jb250cmFjdHMuaGVsbG9fd29ybGQuY29udHJhY3QuSGVsbG9Xb3JsZC5fX2FsZ29weV9lbnRyeXBvaW50X3dpdGhfaW5pdCgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIGludGNibG9jayAxIDAKICAgIGJ5dGVjYmxvY2sgMHgxNTFmN2M3NSAidG90YWxfYWdlbmNpZXMiICJ0b3RhbF9zZWFyY2hlcyIKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBibnogbWFpbl9hZnRlcl9pZl9lbHNlQDIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo3CiAgICAvLyBzZWxmLnRvdGFsX2FnZW5jaWVzID0gR2xvYmFsU3RhdGUoVUludDY0KDApKQogICAgYnl0ZWNfMSAvLyAidG90YWxfYWdlbmNpZXMiCiAgICBpbnRjXzEgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo4CiAgICAvLyBzZWxmLnRvdGFsX3NlYXJjaGVzID0gR2xvYmFsU3RhdGUoVUludDY0KDApKQogICAgYnl0ZWNfMiAvLyAidG90YWxfc2VhcmNoZXMiCiAgICBpbnRjXzEgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKCm1haW5fYWZ0ZXJfaWZfZWxzZUAyOgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIEhlbGxvV29ybGQoQVJDNENvbnRyYWN0KToKICAgIHR4biBOdW1BcHBBcmdzCiAgICBieiBtYWluX2JhcmVfcm91dGluZ0AxMQogICAgcHVzaGJ5dGVzcyAweDIxMmI0MjI1IDB4OThmZjlkODcgMHhhZjM2MmU5MSAweGQ2MjE0OWE3IDB4N2IxNmRjN2YgMHgwMmJlY2UxMSAvLyBtZXRob2QgInJlZ2lzdGVyX2FnZW5jeShzdHJpbmcsc3RyaW5nLHN0cmluZylzdHJpbmciLCBtZXRob2QgInNlYXJjaF9hZ2VuY2llcyhzdHJpbmcpc3RyaW5nIiwgbWV0aG9kICJnZXRfYWdlbmN5X2NvdW50KCl1aW50NjQiLCBtZXRob2QgImdldF9zZWFyY2hfY291bnQoKXVpbnQ2NCIsIG1ldGhvZCAiZ2V0X3JlZ2lzdHJ5X2luZm8oKXN0cmluZyIsIG1ldGhvZCAiaGVsbG8oc3RyaW5nKXN0cmluZyIKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDAKICAgIG1hdGNoIG1haW5fcmVnaXN0ZXJfYWdlbmN5X3JvdXRlQDUgbWFpbl9zZWFyY2hfYWdlbmNpZXNfcm91dGVANiBtYWluX2dldF9hZ2VuY3lfY291bnRfcm91dGVANyBtYWluX2dldF9zZWFyY2hfY291bnRfcm91dGVAOCBtYWluX2dldF9yZWdpc3RyeV9pbmZvX3JvdXRlQDkgbWFpbl9oZWxsb19yb3V0ZUAxMAoKbWFpbl9hZnRlcl9pZl9lbHNlQDEzOgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIEhlbGxvV29ybGQoQVJDNENvbnRyYWN0KToKICAgIGludGNfMSAvLyAwCiAgICByZXR1cm4KCm1haW5faGVsbG9fcm91dGVAMTA6CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NDkKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NQogICAgLy8gY2xhc3MgSGVsbG9Xb3JsZChBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgZXh0cmFjdCAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo0OQogICAgLy8gQGFiaW1ldGhvZCgpCiAgICBjYWxsc3ViIGhlbGxvCiAgICBkdXAKICAgIGxlbgogICAgaXRvYgogICAgZXh0cmFjdCA2IDIKICAgIHN3YXAKICAgIGNvbmNhdAogICAgYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18wIC8vIDEKICAgIHJldHVybgoKbWFpbl9nZXRfcmVnaXN0cnlfaW5mb19yb3V0ZUA5OgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjQ0CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgcHVzaGJ5dGVzIDB4MTUxZjdjNzUwMDNhNDM2YzY5NjU2ZTc0MmQ0MTY3NjU2ZTYzNzkyMDUyNjU2NzY5NzM3NDcyNzkyMDJkMjA0MTYzNzQ2OTc2NjUyMDYxNmU2NDIwNzQ3MjYxNjM2YjY5NmU2NzIwNzI2NTY3Njk3Mzc0NzI2MTc0Njk2ZjZlNzMKICAgIGxvZwogICAgaW50Y18wIC8vIDEKICAgIHJldHVybgoKbWFpbl9nZXRfc2VhcmNoX2NvdW50X3JvdXRlQDg6CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MzkKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICBjYWxsc3ViIGdldF9zZWFyY2hfY291bnQKICAgIGl0b2IKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMCAvLyAxCiAgICByZXR1cm4KCm1haW5fZ2V0X2FnZW5jeV9jb3VudF9yb3V0ZUA3OgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjM0CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgY2FsbHN1YiBnZXRfYWdlbmN5X2NvdW50CiAgICBpdG9iCiAgICBieXRlY18wIC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzAgLy8gMQogICAgcmV0dXJuCgptYWluX3NlYXJjaF9hZ2VuY2llc19yb3V0ZUA2OgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjI1CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIEhlbGxvV29ybGQoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGV4dHJhY3QgMiAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MjUKICAgIC8vIEBhYmltZXRob2QoKQogICAgY2FsbHN1YiBzZWFyY2hfYWdlbmNpZXMKICAgIGR1cAogICAgbGVuCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgc3dhcAogICAgY29uY2F0CiAgICBieXRlY18wIC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzAgLy8gMQogICAgcmV0dXJuCgptYWluX3JlZ2lzdGVyX2FnZW5jeV9yb3V0ZUA1OgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjEwCiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIEhlbGxvV29ybGQoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGV4dHJhY3QgMiAwCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAyCiAgICBleHRyYWN0IDIgMAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwogICAgZXh0cmFjdCAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weToxMAogICAgLy8gQGFiaW1ldGhvZCgpCiAgICBjYWxsc3ViIHJlZ2lzdGVyX2FnZW5jeQogICAgZHVwCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMCAvLyAxCiAgICByZXR1cm4KCm1haW5fYmFyZV9yb3V0aW5nQDExOgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIEhlbGxvV29ybGQoQVJDNENvbnRyYWN0KToKICAgIHR4biBPbkNvbXBsZXRpb24KICAgIGJueiBtYWluX2FmdGVyX2lmX2Vsc2VAMTMKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICAhCiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIGNyZWF0aW5nCiAgICBpbnRjXzAgLy8gMQogICAgcmV0dXJuCgoKLy8gc21hcnRfY29udHJhY3RzLmhlbGxvX3dvcmxkLmNvbnRyYWN0LkhlbGxvV29ybGQucmVnaXN0ZXJfYWdlbmN5KG5hbWU6IGJ5dGVzLCBkZXNjcmlwdGlvbjogYnl0ZXMsIGNvbnRhY3RfaW5mbzogYnl0ZXMpIC0+IGJ5dGVzOgpyZWdpc3Rlcl9hZ2VuY3k6CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MTAtMTYKICAgIC8vIEBhYmltZXRob2QoKQogICAgLy8gZGVmIHJlZ2lzdGVyX2FnZW5jeSgKICAgIC8vICAgICBzZWxmLAogICAgLy8gICAgIG5hbWU6IFN0cmluZywKICAgIC8vICAgICBkZXNjcmlwdGlvbjogU3RyaW5nLAogICAgLy8gICAgIGNvbnRhY3RfaW5mbzogU3RyaW5nCiAgICAvLyApIC0+IFN0cmluZzoKICAgIHByb3RvIDMgMQogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjE5LTIxCiAgICAvLyAjIEluIGEgcmVhbCBpbXBsZW1lbnRhdGlvbiwgeW91IHdvdWxkIHN0b3JlIHRoaXMgZGF0YSBpbiBib3ggc3RvcmFnZQogICAgLy8gIyBGb3Igbm93LCBqdXN0IGluY3JlbWVudCB0aGUgY291bnRlcgogICAgLy8gc2VsZi50b3RhbF9hZ2VuY2llcy52YWx1ZSA9IHNlbGYudG90YWxfYWdlbmNpZXMudmFsdWUgKyBVSW50NjQoMSkKICAgIGludGNfMSAvLyAwCiAgICBieXRlY18xIC8vICJ0b3RhbF9hZ2VuY2llcyIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi50b3RhbF9hZ2VuY2llcyBleGlzdHMKICAgIGludGNfMCAvLyAxCiAgICArCiAgICBieXRlY18xIC8vICJ0b3RhbF9hZ2VuY2llcyIKICAgIHN3YXAKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MjMKICAgIC8vIHJldHVybiBTdHJpbmcoIkFnZW5jeSByZWdpc3RlcmVkIHN1Y2Nlc3NmdWxseTogIikgKyBuYW1lCiAgICBwdXNoYnl0ZXMgIkFnZW5jeSByZWdpc3RlcmVkIHN1Y2Nlc3NmdWxseTogIgogICAgZnJhbWVfZGlnIC0zCiAgICBjb25jYXQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5oZWxsb193b3JsZC5jb250cmFjdC5IZWxsb1dvcmxkLnNlYXJjaF9hZ2VuY2llcyhzZWFyY2hfdGVybTogYnl0ZXMpIC0+IGJ5dGVzOgpzZWFyY2hfYWdlbmNpZXM6CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MjUtMjYKICAgIC8vIEBhYmltZXRob2QoKQogICAgLy8gZGVmIHNlYXJjaF9hZ2VuY2llcyhzZWxmLCBzZWFyY2hfdGVybTogU3RyaW5nKSAtPiBTdHJpbmc6CiAgICBwcm90byAxIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weToyOS0zMAogICAgLy8gIyBJbmNyZW1lbnQgc2VhcmNoIGNvdW50ZXIKICAgIC8vIHNlbGYudG90YWxfc2VhcmNoZXMudmFsdWUgPSBzZWxmLnRvdGFsX3NlYXJjaGVzLnZhbHVlICsgVUludDY0KDEpCiAgICBpbnRjXzEgLy8gMAogICAgYnl0ZWNfMiAvLyAidG90YWxfc2VhcmNoZXMiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYudG90YWxfc2VhcmNoZXMgZXhpc3RzCiAgICBpbnRjXzAgLy8gMQogICAgKwogICAgYnl0ZWNfMiAvLyAidG90YWxfc2VhcmNoZXMiCiAgICBzd2FwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjMyCiAgICAvLyByZXR1cm4gU3RyaW5nKCJTZWFyY2ggcmVzdWx0cyBmb3I6ICIpICsgc2VhcmNoX3Rlcm0gKyBTdHJpbmcoIiAoRm91bmQgYWdlbmNpZXMgd2lsbCBiZSBsaXN0ZWQgaGVyZSkiKQogICAgcHVzaGJ5dGVzICJTZWFyY2ggcmVzdWx0cyBmb3I6ICIKICAgIGZyYW1lX2RpZyAtMQogICAgY29uY2F0CiAgICBwdXNoYnl0ZXMgIiAoRm91bmQgYWdlbmNpZXMgd2lsbCBiZSBsaXN0ZWQgaGVyZSkiCiAgICBjb25jYXQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5oZWxsb193b3JsZC5jb250cmFjdC5IZWxsb1dvcmxkLmdldF9hZ2VuY3lfY291bnQoKSAtPiB1aW50NjQ6CmdldF9hZ2VuY3lfY291bnQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MzcKICAgIC8vIHJldHVybiBzZWxmLnRvdGFsX2FnZW5jaWVzLnZhbHVlCiAgICBpbnRjXzEgLy8gMAogICAgYnl0ZWNfMSAvLyAidG90YWxfYWdlbmNpZXMiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYudG90YWxfYWdlbmNpZXMgZXhpc3RzCiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMuaGVsbG9fd29ybGQuY29udHJhY3QuSGVsbG9Xb3JsZC5nZXRfc2VhcmNoX2NvdW50KCkgLT4gdWludDY0OgpnZXRfc2VhcmNoX2NvdW50OgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjQyCiAgICAvLyByZXR1cm4gc2VsZi50b3RhbF9zZWFyY2hlcy52YWx1ZQogICAgaW50Y18xIC8vIDAKICAgIGJ5dGVjXzIgLy8gInRvdGFsX3NlYXJjaGVzIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnRvdGFsX3NlYXJjaGVzIGV4aXN0cwogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLmhlbGxvX3dvcmxkLmNvbnRyYWN0LkhlbGxvV29ybGQuaGVsbG8obmFtZTogYnl0ZXMpIC0+IGJ5dGVzOgpoZWxsbzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo0OS01MAogICAgLy8gQGFiaW1ldGhvZCgpCiAgICAvLyBkZWYgaGVsbG8oc2VsZiwgbmFtZTogU3RyaW5nKSAtPiBTdHJpbmc6CiAgICBwcm90byAxIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo1MgogICAgLy8gcmV0dXJuIFN0cmluZygiSGVsbG8sICIpICsgbmFtZQogICAgcHVzaGJ5dGVzICJIZWxsbywgIgogICAgZnJhbWVfZGlnIC0xCiAgICBjb25jYXQKICAgIHJldHN1Ygo=","clear":"I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuY2xlYXJfc3RhdGVfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIHB1c2hpbnQgMSAvLyAxCiAgICByZXR1cm4K"},"byteCode":{"approval":"CiACAQAmAwQVH3x1DnRvdGFsX2FnZW5jaWVzDnRvdGFsX3NlYXJjaGVzMRhAAAYpI2cqI2cxG0EBB4IGBCErQiUEmP+dhwSvNi6RBNYhSacEexbcfwQCvs4RNhoAjgYArACOAH0AbAAgAAIjQzEZFEQxGEQ2GgFXAgCIAVlJFRZXBgJMUChMULAiQzEZFEQxGESAQBUffHUAOkNsaWVudC1BZ2VuY3kgUmVnaXN0cnkgLSBBY3RpdmUgYW5kIHRyYWNraW5nIHJlZ2lzdHJhdGlvbnOwIkMxGRREMRhEiADwFihMULAiQzEZFEQxGESIANoWKExQsCJDMRkURDEYRDYaAVcCAIgAdUkVFlcGAkxQKExQsCJDMRkURDEYRDYaAVcCADYaAlcCADYaA1cCAIgAGUkVFlcGAkxQKExQsCJDMRlA/yUxGBREIkOKAwEjKWVEIggpTGeAIEFnZW5jeSByZWdpc3RlcmVkIHN1Y2Nlc3NmdWxseTogi/1QiYoBASMqZUQiCCpMZ4AUU2VhcmNoIHJlc3VsdHMgZm9yOiCL/1CAJSAoRm91bmQgYWdlbmNpZXMgd2lsbCBiZSBsaXN0ZWQgaGVyZSlQiSMpZUSJIyplRImKAQGAB0hlbGxvLCCL/1CJ","clear":"CoEBQw=="},"compilerInfo":{"compiler":"puya","compilerVersion":{"major":4,"minor":9,"patch":0}},"events":[],"templateVariables":{}} as unknown as Arc56Contract
 
 /**
  * A state record containing binary data
@@ -71,6 +71,17 @@ export type HelloWorldArgs = {
    * The object representation of the arguments for each method
    */
   obj: {
+    'register_agency(string,string,string)string': {
+      name: string
+      description: string
+      contactInfo: string
+    }
+    'search_agencies(string)string': {
+      searchTerm: string
+    }
+    'get_agency_count()uint64': Record<string, never>
+    'get_search_count()uint64': Record<string, never>
+    'get_registry_info()string': Record<string, never>
     'hello(string)string': {
       name: string
     }
@@ -79,6 +90,11 @@ export type HelloWorldArgs = {
    * The tuple representation of the arguments for each method
    */
   tuple: {
+    'register_agency(string,string,string)string': [name: string, description: string, contactInfo: string]
+    'search_agencies(string)string': [searchTerm: string]
+    'get_agency_count()uint64': []
+    'get_search_count()uint64': []
+    'get_registry_info()string': []
     'hello(string)string': [name: string]
   }
 }
@@ -87,6 +103,11 @@ export type HelloWorldArgs = {
  * The return type for each method
  */
 export type HelloWorldReturns = {
+  'register_agency(string,string,string)string': string
+  'search_agencies(string)string': string
+  'get_agency_count()uint64': bigint
+  'get_search_count()uint64': bigint
+  'get_registry_info()string': string
   'hello(string)string': string
 }
 
@@ -98,11 +119,48 @@ export type HelloWorldTypes = {
    * Maps method signatures / names to their argument and return types.
    */
   methods:
+    & Record<'register_agency(string,string,string)string' | 'register_agency', {
+      argsObj: HelloWorldArgs['obj']['register_agency(string,string,string)string']
+      argsTuple: HelloWorldArgs['tuple']['register_agency(string,string,string)string']
+      returns: HelloWorldReturns['register_agency(string,string,string)string']
+    }>
+    & Record<'search_agencies(string)string' | 'search_agencies', {
+      argsObj: HelloWorldArgs['obj']['search_agencies(string)string']
+      argsTuple: HelloWorldArgs['tuple']['search_agencies(string)string']
+      returns: HelloWorldReturns['search_agencies(string)string']
+    }>
+    & Record<'get_agency_count()uint64' | 'get_agency_count', {
+      argsObj: HelloWorldArgs['obj']['get_agency_count()uint64']
+      argsTuple: HelloWorldArgs['tuple']['get_agency_count()uint64']
+      returns: HelloWorldReturns['get_agency_count()uint64']
+    }>
+    & Record<'get_search_count()uint64' | 'get_search_count', {
+      argsObj: HelloWorldArgs['obj']['get_search_count()uint64']
+      argsTuple: HelloWorldArgs['tuple']['get_search_count()uint64']
+      returns: HelloWorldReturns['get_search_count()uint64']
+    }>
+    & Record<'get_registry_info()string' | 'get_registry_info', {
+      argsObj: HelloWorldArgs['obj']['get_registry_info()string']
+      argsTuple: HelloWorldArgs['tuple']['get_registry_info()string']
+      returns: HelloWorldReturns['get_registry_info()string']
+    }>
     & Record<'hello(string)string' | 'hello', {
       argsObj: HelloWorldArgs['obj']['hello(string)string']
       argsTuple: HelloWorldArgs['tuple']['hello(string)string']
       returns: HelloWorldReturns['hello(string)string']
     }>
+  /**
+   * Defines the shape of the state of the application.
+   */
+  state: {
+    global: {
+      keys: {
+        totalAgencies: bigint
+        totalSearches: bigint
+      }
+      maps: {}
+    }
+  }
 }
 
 /**
@@ -132,6 +190,11 @@ export type MethodArgs<TSignature extends HelloWorldSignatures> = HelloWorldType
  */
 export type MethodReturn<TSignature extends HelloWorldSignatures> = HelloWorldTypes['methods'][TSignature]['returns']
 
+/**
+ * Defines the shape of the keyed global state of the application.
+ */
+export type GlobalKeysState = HelloWorldTypes['state']['global']['keys']
+
 
 /**
  * Defines supported create method params for this smart contract
@@ -154,7 +217,84 @@ export type HelloWorldDeployParams = Expand<Omit<AppFactoryDeployParams, 'create
  */
 export abstract class HelloWorldParamsFactory {
   /**
+   * Constructs a no op call for the register_agency(string,string,string)string ABI method
+   *
+   * Register a new agency on the blockchain
+   *
+   * @param params Parameters for the call
+   * @returns An `AppClientMethodCallParams` object for the call
+   */
+  static registerAgency(params: CallParams<HelloWorldArgs['obj']['register_agency(string,string,string)string'] | HelloWorldArgs['tuple']['register_agency(string,string,string)string']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
+    return {
+      ...params,
+      method: 'register_agency(string,string,string)string' as const,
+      args: Array.isArray(params.args) ? params.args : [params.args.name, params.args.description, params.args.contactInfo],
+    }
+  }
+  /**
+   * Constructs a no op call for the search_agencies(string)string ABI method
+   *
+   * Allow clients to search for agencies
+   *
+   * @param params Parameters for the call
+   * @returns An `AppClientMethodCallParams` object for the call
+   */
+  static searchAgencies(params: CallParams<HelloWorldArgs['obj']['search_agencies(string)string'] | HelloWorldArgs['tuple']['search_agencies(string)string']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
+    return {
+      ...params,
+      method: 'search_agencies(string)string' as const,
+      args: Array.isArray(params.args) ? params.args : [params.args.searchTerm],
+    }
+  }
+  /**
+   * Constructs a no op call for the get_agency_count()uint64 ABI method
+   *
+   * Get total number of registered agencies
+   *
+   * @param params Parameters for the call
+   * @returns An `AppClientMethodCallParams` object for the call
+   */
+  static getAgencyCount(params: CallParams<HelloWorldArgs['obj']['get_agency_count()uint64'] | HelloWorldArgs['tuple']['get_agency_count()uint64']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
+    return {
+      ...params,
+      method: 'get_agency_count()uint64' as const,
+      args: Array.isArray(params.args) ? params.args : [],
+    }
+  }
+  /**
+   * Constructs a no op call for the get_search_count()uint64 ABI method
+   *
+   * Get total number of searches performed
+   *
+   * @param params Parameters for the call
+   * @returns An `AppClientMethodCallParams` object for the call
+   */
+  static getSearchCount(params: CallParams<HelloWorldArgs['obj']['get_search_count()uint64'] | HelloWorldArgs['tuple']['get_search_count()uint64']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
+    return {
+      ...params,
+      method: 'get_search_count()uint64' as const,
+      args: Array.isArray(params.args) ? params.args : [],
+    }
+  }
+  /**
+   * Constructs a no op call for the get_registry_info()string ABI method
+   *
+   * Get basic registry information
+   *
+   * @param params Parameters for the call
+   * @returns An `AppClientMethodCallParams` object for the call
+   */
+  static getRegistryInfo(params: CallParams<HelloWorldArgs['obj']['get_registry_info()string'] | HelloWorldArgs['tuple']['get_registry_info()string']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
+    return {
+      ...params,
+      method: 'get_registry_info()string' as const,
+      args: Array.isArray(params.args) ? params.args : [],
+    }
+  }
+  /**
    * Constructs a no op call for the hello(string)string ABI method
+   *
+   * Keep the original hello method for compatibility
    *
    * @param params Parameters for the call
    * @returns An `AppClientMethodCallParams` object for the call
@@ -407,7 +547,69 @@ export class HelloWorldClient {
     },
 
     /**
+     * Makes a call to the HelloWorld smart contract using the `register_agency(string,string,string)string` ABI method.
+     *
+     * Register a new agency on the blockchain
+     *
+     * @param params The params for the smart contract call
+     * @returns The call params
+     */
+    registerAgency: (params: CallParams<HelloWorldArgs['obj']['register_agency(string,string,string)string'] | HelloWorldArgs['tuple']['register_agency(string,string,string)string']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      return this.appClient.params.call(HelloWorldParamsFactory.registerAgency(params))
+    },
+
+    /**
+     * Makes a call to the HelloWorld smart contract using the `search_agencies(string)string` ABI method.
+     *
+     * Allow clients to search for agencies
+     *
+     * @param params The params for the smart contract call
+     * @returns The call params
+     */
+    searchAgencies: (params: CallParams<HelloWorldArgs['obj']['search_agencies(string)string'] | HelloWorldArgs['tuple']['search_agencies(string)string']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      return this.appClient.params.call(HelloWorldParamsFactory.searchAgencies(params))
+    },
+
+    /**
+     * Makes a call to the HelloWorld smart contract using the `get_agency_count()uint64` ABI method.
+     *
+     * Get total number of registered agencies
+     *
+     * @param params The params for the smart contract call
+     * @returns The call params
+     */
+    getAgencyCount: (params: CallParams<HelloWorldArgs['obj']['get_agency_count()uint64'] | HelloWorldArgs['tuple']['get_agency_count()uint64']> & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      return this.appClient.params.call(HelloWorldParamsFactory.getAgencyCount(params))
+    },
+
+    /**
+     * Makes a call to the HelloWorld smart contract using the `get_search_count()uint64` ABI method.
+     *
+     * Get total number of searches performed
+     *
+     * @param params The params for the smart contract call
+     * @returns The call params
+     */
+    getSearchCount: (params: CallParams<HelloWorldArgs['obj']['get_search_count()uint64'] | HelloWorldArgs['tuple']['get_search_count()uint64']> & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      return this.appClient.params.call(HelloWorldParamsFactory.getSearchCount(params))
+    },
+
+    /**
+     * Makes a call to the HelloWorld smart contract using the `get_registry_info()string` ABI method.
+     *
+     * Get basic registry information
+     *
+     * @param params The params for the smart contract call
+     * @returns The call params
+     */
+    getRegistryInfo: (params: CallParams<HelloWorldArgs['obj']['get_registry_info()string'] | HelloWorldArgs['tuple']['get_registry_info()string']> & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      return this.appClient.params.call(HelloWorldParamsFactory.getRegistryInfo(params))
+    },
+
+    /**
      * Makes a call to the HelloWorld smart contract using the `hello(string)string` ABI method.
+     *
+     * Keep the original hello method for compatibility
      *
      * @param params The params for the smart contract call
      * @returns The call params
@@ -433,7 +635,69 @@ export class HelloWorldClient {
     },
 
     /**
+     * Makes a call to the HelloWorld smart contract using the `register_agency(string,string,string)string` ABI method.
+     *
+     * Register a new agency on the blockchain
+     *
+     * @param params The params for the smart contract call
+     * @returns The call transaction
+     */
+    registerAgency: (params: CallParams<HelloWorldArgs['obj']['register_agency(string,string,string)string'] | HelloWorldArgs['tuple']['register_agency(string,string,string)string']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      return this.appClient.createTransaction.call(HelloWorldParamsFactory.registerAgency(params))
+    },
+
+    /**
+     * Makes a call to the HelloWorld smart contract using the `search_agencies(string)string` ABI method.
+     *
+     * Allow clients to search for agencies
+     *
+     * @param params The params for the smart contract call
+     * @returns The call transaction
+     */
+    searchAgencies: (params: CallParams<HelloWorldArgs['obj']['search_agencies(string)string'] | HelloWorldArgs['tuple']['search_agencies(string)string']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      return this.appClient.createTransaction.call(HelloWorldParamsFactory.searchAgencies(params))
+    },
+
+    /**
+     * Makes a call to the HelloWorld smart contract using the `get_agency_count()uint64` ABI method.
+     *
+     * Get total number of registered agencies
+     *
+     * @param params The params for the smart contract call
+     * @returns The call transaction
+     */
+    getAgencyCount: (params: CallParams<HelloWorldArgs['obj']['get_agency_count()uint64'] | HelloWorldArgs['tuple']['get_agency_count()uint64']> & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      return this.appClient.createTransaction.call(HelloWorldParamsFactory.getAgencyCount(params))
+    },
+
+    /**
+     * Makes a call to the HelloWorld smart contract using the `get_search_count()uint64` ABI method.
+     *
+     * Get total number of searches performed
+     *
+     * @param params The params for the smart contract call
+     * @returns The call transaction
+     */
+    getSearchCount: (params: CallParams<HelloWorldArgs['obj']['get_search_count()uint64'] | HelloWorldArgs['tuple']['get_search_count()uint64']> & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      return this.appClient.createTransaction.call(HelloWorldParamsFactory.getSearchCount(params))
+    },
+
+    /**
+     * Makes a call to the HelloWorld smart contract using the `get_registry_info()string` ABI method.
+     *
+     * Get basic registry information
+     *
+     * @param params The params for the smart contract call
+     * @returns The call transaction
+     */
+    getRegistryInfo: (params: CallParams<HelloWorldArgs['obj']['get_registry_info()string'] | HelloWorldArgs['tuple']['get_registry_info()string']> & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      return this.appClient.createTransaction.call(HelloWorldParamsFactory.getRegistryInfo(params))
+    },
+
+    /**
      * Makes a call to the HelloWorld smart contract using the `hello(string)string` ABI method.
+     *
+     * Keep the original hello method for compatibility
      *
      * @param params The params for the smart contract call
      * @returns The call transaction
@@ -459,7 +723,74 @@ export class HelloWorldClient {
     },
 
     /**
+     * Makes a call to the HelloWorld smart contract using the `register_agency(string,string,string)string` ABI method.
+     *
+     * Register a new agency on the blockchain
+     *
+     * @param params The params for the smart contract call
+     * @returns The call result
+     */
+    registerAgency: async (params: CallParams<HelloWorldArgs['obj']['register_agency(string,string,string)string'] | HelloWorldArgs['tuple']['register_agency(string,string,string)string']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      const result = await this.appClient.send.call(HelloWorldParamsFactory.registerAgency(params))
+      return {...result, return: result.return as unknown as (undefined | HelloWorldReturns['register_agency(string,string,string)string'])}
+    },
+
+    /**
+     * Makes a call to the HelloWorld smart contract using the `search_agencies(string)string` ABI method.
+     *
+     * Allow clients to search for agencies
+     *
+     * @param params The params for the smart contract call
+     * @returns The call result
+     */
+    searchAgencies: async (params: CallParams<HelloWorldArgs['obj']['search_agencies(string)string'] | HelloWorldArgs['tuple']['search_agencies(string)string']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      const result = await this.appClient.send.call(HelloWorldParamsFactory.searchAgencies(params))
+      return {...result, return: result.return as unknown as (undefined | HelloWorldReturns['search_agencies(string)string'])}
+    },
+
+    /**
+     * Makes a call to the HelloWorld smart contract using the `get_agency_count()uint64` ABI method.
+     *
+     * Get total number of registered agencies
+     *
+     * @param params The params for the smart contract call
+     * @returns The call result
+     */
+    getAgencyCount: async (params: CallParams<HelloWorldArgs['obj']['get_agency_count()uint64'] | HelloWorldArgs['tuple']['get_agency_count()uint64']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      const result = await this.appClient.send.call(HelloWorldParamsFactory.getAgencyCount(params))
+      return {...result, return: result.return as unknown as (undefined | HelloWorldReturns['get_agency_count()uint64'])}
+    },
+
+    /**
+     * Makes a call to the HelloWorld smart contract using the `get_search_count()uint64` ABI method.
+     *
+     * Get total number of searches performed
+     *
+     * @param params The params for the smart contract call
+     * @returns The call result
+     */
+    getSearchCount: async (params: CallParams<HelloWorldArgs['obj']['get_search_count()uint64'] | HelloWorldArgs['tuple']['get_search_count()uint64']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      const result = await this.appClient.send.call(HelloWorldParamsFactory.getSearchCount(params))
+      return {...result, return: result.return as unknown as (undefined | HelloWorldReturns['get_search_count()uint64'])}
+    },
+
+    /**
+     * Makes a call to the HelloWorld smart contract using the `get_registry_info()string` ABI method.
+     *
+     * Get basic registry information
+     *
+     * @param params The params for the smart contract call
+     * @returns The call result
+     */
+    getRegistryInfo: async (params: CallParams<HelloWorldArgs['obj']['get_registry_info()string'] | HelloWorldArgs['tuple']['get_registry_info()string']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      const result = await this.appClient.send.call(HelloWorldParamsFactory.getRegistryInfo(params))
+      return {...result, return: result.return as unknown as (undefined | HelloWorldReturns['get_registry_info()string'])}
+    },
+
+    /**
      * Makes a call to the HelloWorld smart contract using the `hello(string)string` ABI method.
+     *
+     * Keep the original hello method for compatibility
      *
      * @param params The params for the smart contract call
      * @returns The call result
@@ -485,6 +816,29 @@ export class HelloWorldClient {
    * Methods to access state for the current HelloWorld app
    */
   state = {
+    /**
+     * Methods to access global state for the current HelloWorld app
+     */
+    global: {
+      /**
+       * Get all current keyed values from global state
+       */
+      getAll: async (): Promise<Partial<Expand<GlobalKeysState>>> => {
+        const result = await this.appClient.state.global.getAll()
+        return {
+          totalAgencies: result.total_agencies,
+          totalSearches: result.total_searches,
+        }
+      },
+      /**
+       * Get the current value of the total_agencies key in global state
+       */
+      totalAgencies: async (): Promise<bigint | undefined> => { return (await this.appClient.state.global.getValue("total_agencies")) as bigint | undefined },
+      /**
+       * Get the current value of the total_searches key in global state
+       */
+      totalSearches: async (): Promise<bigint | undefined> => { return (await this.appClient.state.global.getValue("total_searches")) as bigint | undefined },
+    },
   }
 
   public newGroup(): HelloWorldComposer {
@@ -493,6 +847,46 @@ export class HelloWorldClient {
     let promiseChain:Promise<unknown> = Promise.resolve()
     const resultMappers: Array<undefined | ((x: ABIReturn | undefined) => any)> = []
     return {
+      /**
+       * Add a register_agency(string,string,string)string method call against the HelloWorld contract
+       */
+      registerAgency(params: CallParams<HelloWorldArgs['obj']['register_agency(string,string,string)string'] | HelloWorldArgs['tuple']['register_agency(string,string,string)string']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.registerAgency(params)))
+        resultMappers.push((v) => client.decodeReturnValue('register_agency(string,string,string)string', v))
+        return this
+      },
+      /**
+       * Add a search_agencies(string)string method call against the HelloWorld contract
+       */
+      searchAgencies(params: CallParams<HelloWorldArgs['obj']['search_agencies(string)string'] | HelloWorldArgs['tuple']['search_agencies(string)string']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.searchAgencies(params)))
+        resultMappers.push((v) => client.decodeReturnValue('search_agencies(string)string', v))
+        return this
+      },
+      /**
+       * Add a get_agency_count()uint64 method call against the HelloWorld contract
+       */
+      getAgencyCount(params: CallParams<HelloWorldArgs['obj']['get_agency_count()uint64'] | HelloWorldArgs['tuple']['get_agency_count()uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.getAgencyCount(params)))
+        resultMappers.push((v) => client.decodeReturnValue('get_agency_count()uint64', v))
+        return this
+      },
+      /**
+       * Add a get_search_count()uint64 method call against the HelloWorld contract
+       */
+      getSearchCount(params: CallParams<HelloWorldArgs['obj']['get_search_count()uint64'] | HelloWorldArgs['tuple']['get_search_count()uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.getSearchCount(params)))
+        resultMappers.push((v) => client.decodeReturnValue('get_search_count()uint64', v))
+        return this
+      },
+      /**
+       * Add a get_registry_info()string method call against the HelloWorld contract
+       */
+      getRegistryInfo(params: CallParams<HelloWorldArgs['obj']['get_registry_info()string'] | HelloWorldArgs['tuple']['get_registry_info()string']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.getRegistryInfo(params)))
+        resultMappers.push((v) => client.decodeReturnValue('get_registry_info()string', v))
+        return this
+      },
       /**
        * Add a hello(string)string method call against the HelloWorld contract
        */
@@ -537,7 +931,64 @@ export class HelloWorldClient {
 }
 export type HelloWorldComposer<TReturns extends [...any[]] = []> = {
   /**
+   * Calls the register_agency(string,string,string)string ABI method.
+   *
+   * Register a new agency on the blockchain
+   *
+   * @param args The arguments for the contract call
+   * @param params Any additional parameters for the call
+   * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
+   */
+  registerAgency(params?: CallParams<HelloWorldArgs['obj']['register_agency(string,string,string)string'] | HelloWorldArgs['tuple']['register_agency(string,string,string)string']>): HelloWorldComposer<[...TReturns, HelloWorldReturns['register_agency(string,string,string)string'] | undefined]>
+
+  /**
+   * Calls the search_agencies(string)string ABI method.
+   *
+   * Allow clients to search for agencies
+   *
+   * @param args The arguments for the contract call
+   * @param params Any additional parameters for the call
+   * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
+   */
+  searchAgencies(params?: CallParams<HelloWorldArgs['obj']['search_agencies(string)string'] | HelloWorldArgs['tuple']['search_agencies(string)string']>): HelloWorldComposer<[...TReturns, HelloWorldReturns['search_agencies(string)string'] | undefined]>
+
+  /**
+   * Calls the get_agency_count()uint64 ABI method.
+   *
+   * Get total number of registered agencies
+   *
+   * @param args The arguments for the contract call
+   * @param params Any additional parameters for the call
+   * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
+   */
+  getAgencyCount(params?: CallParams<HelloWorldArgs['obj']['get_agency_count()uint64'] | HelloWorldArgs['tuple']['get_agency_count()uint64']>): HelloWorldComposer<[...TReturns, HelloWorldReturns['get_agency_count()uint64'] | undefined]>
+
+  /**
+   * Calls the get_search_count()uint64 ABI method.
+   *
+   * Get total number of searches performed
+   *
+   * @param args The arguments for the contract call
+   * @param params Any additional parameters for the call
+   * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
+   */
+  getSearchCount(params?: CallParams<HelloWorldArgs['obj']['get_search_count()uint64'] | HelloWorldArgs['tuple']['get_search_count()uint64']>): HelloWorldComposer<[...TReturns, HelloWorldReturns['get_search_count()uint64'] | undefined]>
+
+  /**
+   * Calls the get_registry_info()string ABI method.
+   *
+   * Get basic registry information
+   *
+   * @param args The arguments for the contract call
+   * @param params Any additional parameters for the call
+   * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
+   */
+  getRegistryInfo(params?: CallParams<HelloWorldArgs['obj']['get_registry_info()string'] | HelloWorldArgs['tuple']['get_registry_info()string']>): HelloWorldComposer<[...TReturns, HelloWorldReturns['get_registry_info()string'] | undefined]>
+
+  /**
    * Calls the hello(string)string ABI method.
+   *
+   * Keep the original hello method for compatibility
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call

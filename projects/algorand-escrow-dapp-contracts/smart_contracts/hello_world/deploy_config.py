@@ -6,14 +6,15 @@ logger = logging.getLogger(__name__)
 
 def deploy() -> None:
     from smart_contracts.artifacts.hello_world.hello_world_client import (
-        ClientAgencyRegistryFactory,
+        HelloArgs,
+        HelloWorldFactory,
     )
 
     algorand = algokit_utils.AlgorandClient.from_environment()
     deployer_ = algorand.account.from_environment("DEPLOYER")
 
     factory = algorand.client.get_typed_app_factory(
-        ClientAgencyRegistryFactory, default_sender=deployer_.address
+        HelloWorldFactory, default_sender=deployer_.address
     )
 
     app_client, result = factory.deploy(
@@ -25,18 +26,25 @@ def deploy() -> None:
         algokit_utils.OperationPerformed.Create,
         algokit_utils.OperationPerformed.Replace,
     ]:
-        # Fund the app account
         algorand.send.payment(
             algokit_utils.PaymentParams(
-                amount=algokit_utils.AlgoAmount(algo=1),
+                amount=algokit_utils.AlgoAmount(algo=1),  # Fixed: removed .algo() call
                 sender=deployer_.address,
                 receiver=app_client.app_address,
             )
         )
 
-    # Test the registry
-    response = app_client.send.get_registry_info()
+    # Test the original functionality
+    name = "world"
+    response = app_client.send.hello(args=HelloArgs(name=name))
     logger.info(
-        f"Deployed Client-Agency Registry ({app_client.app_id}) "
-        f"Status: {response.abi_return}"
+        f"Called hello on {app_client.app_name} ({app_client.app_id}) "
+        f"with name={name}, received: {response.abi_return}"
     )
+
+    # Test new registry functionality
+    try:
+        registry_response = app_client.send.get_registry_info()
+        logger.info(f"Registry info: {registry_response.abi_return}")
+    except Exception as e:
+        logger.warning(f"Registry info call failed: {e}")

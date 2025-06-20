@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { ClientAgencyRegistryClient } from "../contracts/HelloWorld";
+import { HelloWorldClient } from "../contracts/HelloWorld"; // Fixed import
 
 interface RegistryStatsProps {
-  appClient: ClientAgencyRegistryClient;
+  appClient: HelloWorldClient; // Fixed type
 }
 
 export const RegistryStats: React.FC<RegistryStatsProps> = ({ appClient }) => {
@@ -15,9 +15,9 @@ export const RegistryStats: React.FC<RegistryStatsProps> = ({ appClient }) => {
   const loadStats = async () => {
     try {
       const [agencyCount, searchCount, registryInfo] = await Promise.all([
-        appClient.getAgencyCount(),
-        appClient.getSearchCount(),
-        appClient.getRegistryInfo(),
+        appClient.send.getAgencyCount(),
+        appClient.send.getSearchCount(),
+        appClient.send.getRegistryInfo(),
       ]);
 
       setStats({
@@ -31,7 +31,9 @@ export const RegistryStats: React.FC<RegistryStatsProps> = ({ appClient }) => {
   };
 
   useEffect(() => {
-    loadStats();
+    if (appClient) {
+      loadStats();
+    }
   }, [appClient]);
 
   return (

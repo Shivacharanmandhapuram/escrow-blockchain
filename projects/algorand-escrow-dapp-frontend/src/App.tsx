@@ -1,99 +1,226 @@
 import React, { useState, useEffect } from "react";
-import { useWallet } from "@txnlab/use-wallet-react";
-import { ClientAgencyRegistryClient } from "./contracts/HelloWorld";
-import { AgencyRegistration } from "./components/AgencyRegistration";
-import { AgencySearch } from "./components/AgencySearch";
-import { RegistryStats } from "./components/RegistryStats";
 import algosdk from "algosdk";
 
 function App() {
-  const { providers, activeAccount } = useWallet();
-  const [appClient, setAppClient] = useState<ClientAgencyRegistryClient | null>(
-    null,
-  );
-  const [activeTab, setActiveTab] = useState<"search" | "register">("search");
+  const [message, setMessage] = useState("Loading...");
+  const [appClient, setAppClient] = useState<any>(null);
 
   useEffect(() => {
-    // Initialize the app client
-    const algodClient = new algosdk.Algodv2(
-      "",
-      "https://testnet-api.algonode.cloud",
-      "",
-    );
+    const initializeApp = async () => {
+      try {
+        const { HelloWorldClient } = await import("./contracts/HelloWorld");
 
-    // Replace with your deployed app ID
-    const APP_ID = 123456789; // Your actual app ID from deployment
+        const algodClient = new algosdk.Algodv2(
+          "",
+          "https://testnet-api.algonode.cloud",
+          "",
+        );
 
-    const client = new ClientAgencyRegistryClient(
-      {
-        resolveBy: "id",
-        id: APP_ID,
-      },
-      algodClient,
-    );
+        // Fix: Use the correct constructor format
+        const client = new HelloWorldClient(
+          {
+            resolveBy: "id",
+            id: 741584998,
+          },
+          algodClient,
+        );
 
-    setAppClient(client);
+        setAppClient(client);
+        setMessage("App initialized successfully!");
+
+        // Don't call hello immediately - let user click the button
+      } catch (error) {
+        console.error("Initialization error:", error);
+        setMessage(`Error: ${(error as Error).message}`);
+      }
+    };
+
+    initializeApp();
   }, []);
 
   return (
-    <div className="min-h-screen bg-base-200">
-      <div className="navbar bg-base-100 shadow-lg">
-        <div className="flex-1">
-          <h1 className="text-xl font-bold">Client-Agency Registry</h1>
-        </div>
-        <div className="flex-none">
-          {activeAccount ? (
-            <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-ghost">
-                {activeAccount.address.slice(0, 8)}...
-              </label>
-            </div>
-          ) : (
-            <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-primary">
-                Connect Wallet
-              </label>
-              <ul className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                {providers?.map((provider) => (
-                  <li key={provider.metadata.id}>
-                    <button onClick={provider.connect}>
-                      {provider.metadata.name}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
+    <div
+      style={{
+        padding: "20px",
+        fontFamily: "Arial, sans-serif",
+        minHeight: "100vh",
+        backgroundColor: "#f0f0f0",
+      }}
+    >
+      <h1>Client-Agency Registry</h1>
+      <div
+        style={{
+          backgroundColor: "white",
+          padding: "20px",
+          borderRadius: "8px",
+          marginTop: "20px",
+        }}
+      >
+        <p>
+          <strong>Status:</strong> {message}
+        </p>
+        {appClient && (
+          <div>
+            <p>
+              <strong>App ID:</strong> {appClient.appId}
+            </p>
+            <TestButtons appClient={appClient} />
+          </div>
+        )}
       </div>
+    </div>
+  );
+}
 
-      <div className="container mx-auto px-4 py-8">
-        {appClient && <RegistryStats appClient={appClient} />}
+function TestButtons({ appClient }: { appClient: any }) {
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState("");
 
-        <div className="tabs tabs-boxed justify-center my-8">
-          <button
-            className={`tab ${activeTab === "search" ? "tab-active" : ""}`}
-            onClick={() => setActiveTab("search")}
-          >
-            Search Agencies
-          </button>
-          <button
-            className={`tab ${activeTab === "register" ? "tab-active" : ""}`}
-            onClick={() => setActiveTab("register")}
-          >
-            Register Agency
-          </button>
+  const testHelloOnly = async () => {
+    setLoading(true);
+    try {
+      // Test the simplest method first with proper argument structure
+      const response = await appClient.hello({
+        name: "Test",
+      });
+      setResult(`Hello: ${response.return?.valueOf()}`);
+    } catch (error) {
+      console.error("Hello error details:", error);
+      setResult(`Hello Error: ${(error as Error).message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const testGetStats = async () => {
+    setLoading(true);
+    try {
+      // Test getter methods without arguments
+      const agencies = await appClient.getAgencyCount();
+      const searches = await appClient.getSearchCount();
+      const info = await appClient.getRegistryInfo();
+
+      setResult(
+        `Stats - Agencies: ${agencies.return?.valueOf()}, Searches: ${searches.return?.valueOf()}, Info: ${info.return?.valueOf()}`,
+      );
+    } catch (error) {
+      console.error("Stats error details:", error);
+      setResult(`Stats Error: ${(error as Error).message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const testRegisterAgency = async () => {
+    setLoading(true);
+    try {
+      const response = await appClient.registerAgency({
+        name: "Test Agency",
+        description: "Test Description",
+        contactInfo: "test@example.com",
+      });
+      setResult(`Register: ${response.return?.valueOf()}`);
+    } catch (error) {
+      console.error("Register error details:", error);
+      setResult(`Register Error: ${(error as Error).message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const testSearchAgencies = async () => {
+    setLoading(true);
+    try {
+      const response = await appClient.searchAgencies({
+        searchTerm: "web development",
+      });
+      setResult(`Search: ${response.return?.valueOf()}`);
+    } catch (error) {
+      console.error("Search error details:", error);
+      setResult(`Search Error: ${(error as Error).message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{ marginTop: "20px" }}>
+      <button
+        onClick={testHelloOnly}
+        disabled={loading}
+        style={{
+          padding: "10px 20px",
+          marginRight: "10px",
+          backgroundColor: "#6c757d",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: loading ? "not-allowed" : "pointer",
+        }}
+      >
+        {loading ? "Loading..." : "Test Hello (Simple)"}
+      </button>
+
+      <button
+        onClick={testGetStats}
+        disabled={loading}
+        style={{
+          padding: "10px 20px",
+          marginRight: "10px",
+          backgroundColor: "#28a745",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: loading ? "not-allowed" : "pointer",
+        }}
+      >
+        {loading ? "Loading..." : "Test Get Stats"}
+      </button>
+
+      <button
+        onClick={testRegisterAgency}
+        disabled={loading}
+        style={{
+          padding: "10px 20px",
+          marginRight: "10px",
+          backgroundColor: "#007bff",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: loading ? "not-allowed" : "pointer",
+        }}
+      >
+        {loading ? "Loading..." : "Test Register Agency"}
+      </button>
+
+      <button
+        onClick={testSearchAgencies}
+        disabled={loading}
+        style={{
+          padding: "10px 20px",
+          backgroundColor: "#17a2b8",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: loading ? "not-allowed" : "pointer",
+        }}
+      >
+        {loading ? "Loading..." : "Test Search Agencies"}
+      </button>
+
+      {result && (
+        <div
+          style={{
+            marginTop: "15px",
+            padding: "10px",
+            backgroundColor: "#f8f9fa",
+            border: "1px solid #dee2e6",
+            borderRadius: "4px",
+          }}
+        >
+          <strong>Result:</strong> {result}
         </div>
-
-        <div className="max-w-2xl mx-auto">
-          {appClient && activeTab === "search" && (
-            <AgencySearch appClient={appClient} />
-          )}
-          {appClient && activeTab === "register" && (
-            <AgencyRegistration appClient={appClient} />
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 }
