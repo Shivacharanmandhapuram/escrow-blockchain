@@ -3,19 +3,26 @@
 
 // smart_contracts.hello_world.contract.HelloWorld.__algopy_entrypoint_with_init() -> uint64:
 main:
-    intcblock 1 0
-    bytecblock 0x151f7c75 "total_agencies" "total_searches"
+    intcblock 0 1
+    bytecblock "agency_count" "search_count" "agencies_list" 0x151f7c75 "0" "1" "|" "2"
     txn ApplicationID
     bnz main_after_if_else@2
-    // smart_contracts/hello_world/contract.py:7
-    // self.total_agencies = GlobalState(UInt64(0))
-    bytec_1 // "total_agencies"
-    intc_1 // 0
+    // smart_contracts/hello_world/contract.py:7-8
+    // # Use String for counters to avoid UInt64 frontend issues
+    // self.agency_count = GlobalState(String("0"))
+    bytec_0 // "agency_count"
+    bytec 4 // "0"
     app_global_put
-    // smart_contracts/hello_world/contract.py:8
-    // self.total_searches = GlobalState(UInt64(0))
-    bytec_2 // "total_searches"
-    intc_1 // 0
+    // smart_contracts/hello_world/contract.py:9
+    // self.search_count = GlobalState(String("0"))
+    bytec_1 // "search_count"
+    bytec 4 // "0"
+    app_global_put
+    // smart_contracts/hello_world/contract.py:11-12
+    // # Store agencies as: name|description|contact|address;
+    // self.agencies_list = GlobalState(String(""))
+    bytec_2 // "agencies_list"
+    pushbytes ""
     app_global_put
 
 main_after_if_else@2:
@@ -23,93 +30,75 @@ main_after_if_else@2:
     // class HelloWorld(ARC4Contract):
     txn NumAppArgs
     bz main_bare_routing@11
-    pushbytess 0x212b4225 0x98ff9d87 0xaf362e91 0xd62149a7 0x7b16dc7f 0x02bece11 // method "register_agency(string,string,string)string", method "search_agencies(string)string", method "get_agency_count()uint64", method "get_search_count()uint64", method "get_registry_info()string", method "hello(string)string"
+    pushbytess 0x02bece11 0xaa904aca 0x98ff9d87 0x92ce565f 0x14989d2b 0xe09d84c0 // method "hello(string)string", method "register_agency(string,string,string,string)string", method "search_agencies(string)string", method "get_all_agencies()string", method "get_stats()string", method "get_service_info()string"
     txna ApplicationArgs 0
-    match main_register_agency_route@5 main_search_agencies_route@6 main_get_agency_count_route@7 main_get_search_count_route@8 main_get_registry_info_route@9 main_hello_route@10
+    match main_hello_route@5 main_register_agency_route@6 main_search_agencies_route@7 main_get_all_agencies_route@8 main_get_stats_route@9 main_get_service_info_route@10
 
 main_after_if_else@13:
     // smart_contracts/hello_world/contract.py:5
     // class HelloWorld(ARC4Contract):
-    intc_1 // 0
+    intc_0 // 0
     return
 
-main_hello_route@10:
-    // smart_contracts/hello_world/contract.py:49
+main_get_service_info_route@10:
+    // smart_contracts/hello_world/contract.py:74
     // @abimethod()
     txn OnCompletion
     !
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/hello_world/contract.py:5
-    // class HelloWorld(ARC4Contract):
-    txna ApplicationArgs 1
-    extract 2 0
-    // smart_contracts/hello_world/contract.py:49
+    pushbytes 0x151f7c750042416c676f72616e6420457363726f772053657276696365202d20436f6e6e656374696e6720436c69656e747320776974682054727573746564204167656e63696573
+    log
+    intc_1 // 1
+    return
+
+main_get_stats_route@9:
+    // smart_contracts/hello_world/contract.py:69
     // @abimethod()
-    callsub hello
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    callsub get_stats
     dup
     len
     itob
     extract 6 2
     swap
     concat
-    bytec_0 // 0x151f7c75
+    bytec_3 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
     return
 
-main_get_registry_info_route@9:
-    // smart_contracts/hello_world/contract.py:44
+main_get_all_agencies_route@8:
+    // smart_contracts/hello_world/contract.py:64
     // @abimethod()
     txn OnCompletion
     !
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    pushbytes 0x151f7c75003a436c69656e742d4167656e6379205265676973747279202d2041637469766520616e6420747261636b696e6720726567697374726174696f6e73
-    log
-    intc_0 // 1
-    return
-
-main_get_search_count_route@8:
-    // smart_contracts/hello_world/contract.py:39
-    // @abimethod()
-    txn OnCompletion
-    !
-    assert // OnCompletion is not NoOp
-    txn ApplicationID
-    assert // can only call when not creating
-    callsub get_search_count
+    callsub get_all_agencies
+    dup
+    len
     itob
-    bytec_0 // 0x151f7c75
+    extract 6 2
+    swap
+    concat
+    bytec_3 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
     return
 
-main_get_agency_count_route@7:
-    // smart_contracts/hello_world/contract.py:34
-    // @abimethod()
-    txn OnCompletion
-    !
-    assert // OnCompletion is not NoOp
-    txn ApplicationID
-    assert // can only call when not creating
-    callsub get_agency_count
-    itob
-    bytec_0 // 0x151f7c75
-    swap
-    concat
-    log
-    intc_0 // 1
-    return
-
-main_search_agencies_route@6:
-    // smart_contracts/hello_world/contract.py:25
+main_search_agencies_route@7:
+    // smart_contracts/hello_world/contract.py:48
     // @abimethod()
     txn OnCompletion
     !
@@ -120,7 +109,7 @@ main_search_agencies_route@6:
     // class HelloWorld(ARC4Contract):
     txna ApplicationArgs 1
     extract 2 0
-    // smart_contracts/hello_world/contract.py:25
+    // smart_contracts/hello_world/contract.py:48
     // @abimethod()
     callsub search_agencies
     dup
@@ -129,15 +118,15 @@ main_search_agencies_route@6:
     extract 6 2
     swap
     concat
-    bytec_0 // 0x151f7c75
+    bytec_3 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
     return
 
-main_register_agency_route@5:
-    // smart_contracts/hello_world/contract.py:10
+main_register_agency_route@6:
+    // smart_contracts/hello_world/contract.py:19
     // @abimethod()
     txn OnCompletion
     !
@@ -152,7 +141,9 @@ main_register_agency_route@5:
     extract 2 0
     txna ApplicationArgs 3
     extract 2 0
-    // smart_contracts/hello_world/contract.py:10
+    txna ApplicationArgs 4
+    extract 2 0
+    // smart_contracts/hello_world/contract.py:19
     // @abimethod()
     callsub register_agency
     dup
@@ -161,11 +152,39 @@ main_register_agency_route@5:
     extract 6 2
     swap
     concat
-    bytec_0 // 0x151f7c75
+    bytec_3 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
+    return
+
+main_hello_route@5:
+    // smart_contracts/hello_world/contract.py:14
+    // @abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/hello_world/contract.py:5
+    // class HelloWorld(ARC4Contract):
+    txna ApplicationArgs 1
+    extract 2 0
+    // smart_contracts/hello_world/contract.py:14
+    // @abimethod()
+    callsub hello
+    dup
+    len
+    itob
+    extract 6 2
+    swap
+    concat
+    bytec_3 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_1 // 1
     return
 
 main_bare_routing@11:
@@ -176,101 +195,239 @@ main_bare_routing@11:
     txn ApplicationID
     !
     assert // can only call when creating
-    intc_0 // 1
+    intc_1 // 1
     return
-
-
-// smart_contracts.hello_world.contract.HelloWorld.register_agency(name: bytes, description: bytes, contact_info: bytes) -> bytes:
-register_agency:
-    // smart_contracts/hello_world/contract.py:10-16
-    // @abimethod()
-    // def register_agency(
-    //     self,
-    //     name: String,
-    //     description: String,
-    //     contact_info: String
-    // ) -> String:
-    proto 3 1
-    // smart_contracts/hello_world/contract.py:19-21
-    // # In a real implementation, you would store this data in box storage
-    // # For now, just increment the counter
-    // self.total_agencies.value = self.total_agencies.value + UInt64(1)
-    intc_1 // 0
-    bytec_1 // "total_agencies"
-    app_global_get_ex
-    assert // check self.total_agencies exists
-    intc_0 // 1
-    +
-    bytec_1 // "total_agencies"
-    swap
-    app_global_put
-    // smart_contracts/hello_world/contract.py:23
-    // return String("Agency registered successfully: ") + name
-    pushbytes "Agency registered successfully: "
-    frame_dig -3
-    concat
-    retsub
-
-
-// smart_contracts.hello_world.contract.HelloWorld.search_agencies(search_term: bytes) -> bytes:
-search_agencies:
-    // smart_contracts/hello_world/contract.py:25-26
-    // @abimethod()
-    // def search_agencies(self, search_term: String) -> String:
-    proto 1 1
-    // smart_contracts/hello_world/contract.py:29-30
-    // # Increment search counter
-    // self.total_searches.value = self.total_searches.value + UInt64(1)
-    intc_1 // 0
-    bytec_2 // "total_searches"
-    app_global_get_ex
-    assert // check self.total_searches exists
-    intc_0 // 1
-    +
-    bytec_2 // "total_searches"
-    swap
-    app_global_put
-    // smart_contracts/hello_world/contract.py:32
-    // return String("Search results for: ") + search_term + String(" (Found agencies will be listed here)")
-    pushbytes "Search results for: "
-    frame_dig -1
-    concat
-    pushbytes " (Found agencies will be listed here)"
-    concat
-    retsub
-
-
-// smart_contracts.hello_world.contract.HelloWorld.get_agency_count() -> uint64:
-get_agency_count:
-    // smart_contracts/hello_world/contract.py:37
-    // return self.total_agencies.value
-    intc_1 // 0
-    bytec_1 // "total_agencies"
-    app_global_get_ex
-    assert // check self.total_agencies exists
-    retsub
-
-
-// smart_contracts.hello_world.contract.HelloWorld.get_search_count() -> uint64:
-get_search_count:
-    // smart_contracts/hello_world/contract.py:42
-    // return self.total_searches.value
-    intc_1 // 0
-    bytec_2 // "total_searches"
-    app_global_get_ex
-    assert // check self.total_searches exists
-    retsub
 
 
 // smart_contracts.hello_world.contract.HelloWorld.hello(name: bytes) -> bytes:
 hello:
-    // smart_contracts/hello_world/contract.py:49-50
+    // smart_contracts/hello_world/contract.py:14-15
     // @abimethod()
     // def hello(self, name: String) -> String:
     proto 1 1
-    // smart_contracts/hello_world/contract.py:52
-    // return String("Hello, ") + name
-    pushbytes "Hello, "
+    // smart_contracts/hello_world/contract.py:17
+    // return String("Hello ") + name + String(" - Welcome to Escrow Service!")
+    pushbytes "Hello "
     frame_dig -1
+    concat
+    pushbytes " - Welcome to Escrow Service!"
+    concat
+    retsub
+
+
+// smart_contracts.hello_world.contract.HelloWorld.register_agency(agency_name: bytes, description: bytes, contact_info: bytes, wallet_address: bytes) -> bytes:
+register_agency:
+    // smart_contracts/hello_world/contract.py:19-26
+    // @abimethod()
+    // def register_agency(
+    //     self,
+    //     agency_name: String,
+    //     description: String,
+    //     contact_info: String,
+    //     wallet_address: String
+    // ) -> String:
+    proto 4 1
+    // smart_contracts/hello_world/contract.py:28-29
+    // # Create agency entry: name|description|contact|address;
+    // agency_entry = agency_name + String("|") + description + String("|") + contact_info + String("|") + wallet_address + String(";")
+    frame_dig -4
+    bytec 6 // "|"
+    concat
+    frame_dig -3
+    concat
+    bytec 6 // "|"
+    concat
+    frame_dig -2
+    concat
+    bytec 6 // "|"
+    concat
+    frame_dig -1
+    concat
+    pushbytes ";"
+    concat
+    // smart_contracts/hello_world/contract.py:31-32
+    // # Add to agencies list
+    // current_list = self.agencies_list.value
+    intc_0 // 0
+    bytec_2 // "agencies_list"
+    app_global_get_ex
+    assert // check self.agencies_list exists
+    // smart_contracts/hello_world/contract.py:33
+    // self.agencies_list.value = current_list + agency_entry
+    swap
+    concat
+    bytec_2 // "agencies_list"
+    swap
+    app_global_put
+    // smart_contracts/hello_world/contract.py:35-36
+    // # Increment counter (simplified)
+    // current_count = self.agency_count.value
+    intc_0 // 0
+    bytec_0 // "agency_count"
+    app_global_get_ex
+    swap
+    dup
+    uncover 2
+    assert // check self.agency_count exists
+    // smart_contracts/hello_world/contract.py:37
+    // if current_count == String("0"):
+    bytec 4 // "0"
+    ==
+    bz register_agency_else_body@2
+    // smart_contracts/hello_world/contract.py:38
+    // self.agency_count.value = String("1")
+    bytec_0 // "agency_count"
+    bytec 5 // "1"
+    app_global_put
+
+register_agency_after_if_else@9:
+    // smart_contracts/hello_world/contract.py:46
+    // return String("SUCCESS:Agency ") + agency_name + String(" registered for escrow service")
+    pushbytes "SUCCESS:Agency "
+    frame_dig -4
+    concat
+    pushbytes " registered for escrow service"
+    concat
+    swap
+    retsub
+
+register_agency_else_body@2:
+    // smart_contracts/hello_world/contract.py:39
+    // elif current_count == String("1"):
+    frame_dig 0
+    bytec 5 // "1"
+    ==
+    bz register_agency_else_body@4
+    // smart_contracts/hello_world/contract.py:40
+    // self.agency_count.value = String("2")
+    bytec_0 // "agency_count"
+    bytec 7 // "2"
+    app_global_put
+    b register_agency_after_if_else@9
+
+register_agency_else_body@4:
+    // smart_contracts/hello_world/contract.py:41
+    // elif current_count == String("2"):
+    frame_dig 0
+    bytec 7 // "2"
+    ==
+    bz register_agency_else_body@6
+    // smart_contracts/hello_world/contract.py:42
+    // self.agency_count.value = String("3")
+    bytec_0 // "agency_count"
+    pushbytes "3"
+    app_global_put
+    b register_agency_after_if_else@9
+
+register_agency_else_body@6:
+    // smart_contracts/hello_world/contract.py:44
+    // self.agency_count.value = String("3+")
+    bytec_0 // "agency_count"
+    pushbytes "3+"
+    app_global_put
+    b register_agency_after_if_else@9
+
+
+// smart_contracts.hello_world.contract.HelloWorld.search_agencies(search_term: bytes) -> bytes:
+search_agencies:
+    // smart_contracts/hello_world/contract.py:48-49
+    // @abimethod()
+    // def search_agencies(self, search_term: String) -> String:
+    proto 1 1
+    // smart_contracts/hello_world/contract.py:51-52
+    // # Increment search counter
+    // current_count = self.search_count.value
+    intc_0 // 0
+    bytec_1 // "search_count"
+    app_global_get_ex
+    swap
+    dup
+    uncover 2
+    assert // check self.search_count exists
+    // smart_contracts/hello_world/contract.py:53
+    // if current_count == String("0"):
+    bytec 4 // "0"
+    ==
+    bz search_agencies_else_body@2
+    // smart_contracts/hello_world/contract.py:54
+    // self.search_count.value = String("1")
+    bytec_1 // "search_count"
+    bytec 5 // "1"
+    app_global_put
+
+search_agencies_after_if_else@6:
+    // smart_contracts/hello_world/contract.py:60-61
+    // # Return all agencies with search marker
+    // agencies_data = self.agencies_list.value
+    intc_0 // 0
+    bytec_2 // "agencies_list"
+    app_global_get_ex
+    assert // check self.agencies_list exists
+    // smart_contracts/hello_world/contract.py:62
+    // return String("SEARCH_RESULTS:") + search_term + String(":") + agencies_data
+    pushbytes "SEARCH_RESULTS:"
+    frame_dig -1
+    concat
+    pushbytes ":"
+    concat
+    swap
+    concat
+    swap
+    retsub
+
+search_agencies_else_body@2:
+    // smart_contracts/hello_world/contract.py:55
+    // elif current_count == String("1"):
+    frame_dig 0
+    bytec 5 // "1"
+    ==
+    bz search_agencies_else_body@4
+    // smart_contracts/hello_world/contract.py:56
+    // self.search_count.value = String("2")
+    bytec_1 // "search_count"
+    bytec 7 // "2"
+    app_global_put
+    b search_agencies_after_if_else@6
+
+search_agencies_else_body@4:
+    // smart_contracts/hello_world/contract.py:58
+    // self.search_count.value = String("2+")
+    bytec_1 // "search_count"
+    pushbytes "2+"
+    app_global_put
+    b search_agencies_after_if_else@6
+
+
+// smart_contracts.hello_world.contract.HelloWorld.get_all_agencies() -> bytes:
+get_all_agencies:
+    // smart_contracts/hello_world/contract.py:67
+    // return String("ALL_AGENCIES:") + self.agencies_list.value
+    intc_0 // 0
+    bytec_2 // "agencies_list"
+    app_global_get_ex
+    assert // check self.agencies_list exists
+    pushbytes "ALL_AGENCIES:"
+    swap
+    concat
+    retsub
+
+
+// smart_contracts.hello_world.contract.HelloWorld.get_stats() -> bytes:
+get_stats:
+    // smart_contracts/hello_world/contract.py:72
+    // return String("STATS:Agencies:") + self.agency_count.value + String(":Searches:") + self.search_count.value
+    intc_0 // 0
+    bytec_0 // "agency_count"
+    app_global_get_ex
+    assert // check self.agency_count exists
+    pushbytes "STATS:Agencies:"
+    swap
+    concat
+    pushbytes ":Searches:"
+    concat
+    intc_0 // 0
+    bytec_1 // "search_count"
+    app_global_get_ex
+    assert // check self.search_count exists
     concat
     retsub

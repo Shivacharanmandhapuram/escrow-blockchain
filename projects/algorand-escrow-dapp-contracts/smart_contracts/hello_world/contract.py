@@ -1,52 +1,77 @@
-from algopy import ARC4Contract, String, UInt64, GlobalState
+from algopy import ARC4Contract, String, GlobalState
 from algopy.arc4 import abimethod
 
 
 class HelloWorld(ARC4Contract):
     def __init__(self) -> None:
-        self.total_agencies = GlobalState(UInt64(0))
-        self.total_searches = GlobalState(UInt64(0))
+        # Use String for counters to avoid UInt64 frontend issues
+        self.agency_count = GlobalState(String("0"))
+        self.search_count = GlobalState(String("0"))
+
+        # Store agencies as: name|description|contact|address;
+        self.agencies_list = GlobalState(String(""))
+
+    @abimethod()
+    def hello(self, name: String) -> String:
+        """Test connectivity"""
+        return String("Hello ") + name + String(" - Welcome to Escrow Service!")
 
     @abimethod()
     def register_agency(
         self,
-        name: String,
+        agency_name: String,
         description: String,
-        contact_info: String
+        contact_info: String,
+        wallet_address: String
     ) -> String:
-        """Register a new agency on the blockchain"""
+        """Register agency with wallet address for escrow"""
+        # Create agency entry: name|description|contact|address;
+        agency_entry = agency_name + String("|") + description + String("|") + contact_info + String("|") + wallet_address + String(";")
 
-        # In a real implementation, you would store this data in box storage
-        # For now, just increment the counter
-        self.total_agencies.value = self.total_agencies.value + UInt64(1)
+        # Add to agencies list
+        current_list = self.agencies_list.value
+        self.agencies_list.value = current_list + agency_entry
 
-        return String("Agency registered successfully: ") + name
+        # Increment counter (simplified)
+        current_count = self.agency_count.value
+        if current_count == String("0"):
+            self.agency_count.value = String("1")
+        elif current_count == String("1"):
+            self.agency_count.value = String("2")
+        elif current_count == String("2"):
+            self.agency_count.value = String("3")
+        else:
+            self.agency_count.value = String("3+")
+
+        return String("SUCCESS:Agency ") + agency_name + String(" registered for escrow service")
 
     @abimethod()
     def search_agencies(self, search_term: String) -> String:
-        """Allow clients to search for agencies"""
-
+        """Search agencies by name or service"""
         # Increment search counter
-        self.total_searches.value = self.total_searches.value + UInt64(1)
+        current_count = self.search_count.value
+        if current_count == String("0"):
+            self.search_count.value = String("1")
+        elif current_count == String("1"):
+            self.search_count.value = String("2")
+        else:
+            self.search_count.value = String("2+")
 
-        return String("Search results for: ") + search_term + String(" (Found agencies will be listed here)")
-
-    @abimethod()
-    def get_agency_count(self) -> UInt64:
-        """Get total number of registered agencies"""
-        return self.total_agencies.value
-
-    @abimethod()
-    def get_search_count(self) -> UInt64:
-        """Get total number of searches performed"""
-        return self.total_searches.value
+        # Return all agencies with search marker
+        agencies_data = self.agencies_list.value
+        return String("SEARCH_RESULTS:") + search_term + String(":") + agencies_data
 
     @abimethod()
-    def get_registry_info(self) -> String:
-        """Get basic registry information"""
-        return String("Client-Agency Registry - Active and tracking registrations")
+    def get_all_agencies(self) -> String:
+        """Get all registered agencies"""
+        return String("ALL_AGENCIES:") + self.agencies_list.value
 
     @abimethod()
-    def hello(self, name: String) -> String:
-        """Keep the original hello method for compatibility"""
-        return String("Hello, ") + name
+    def get_stats(self) -> String:
+        """Get service statistics"""
+        return String("STATS:Agencies:") + self.agency_count.value + String(":Searches:") + self.search_count.value
+
+    @abimethod()
+    def get_service_info(self) -> String:
+        """Get service information"""
+        return String("Algorand Escrow Service - Connecting Clients with Trusted Agencies")
